@@ -1,22 +1,32 @@
 package assignment9;
 
+import java.awt.Color;
 import java.awt.event.KeyEvent;
 
 import edu.princeton.cs.introcs.StdDraw;
 
 public class Game {
 	
+	private Snake august;
+	private Food baba;
+	private int score;
+	
 	public Game() {
 		StdDraw.enableDoubleBuffering();
 		
 		//FIXME - construct new Snake and Food objects
+		
+		this.august = new Snake();
+		this.baba = new Food();
+		score = 0;
+		
 	}
 	
 	public void play() {
-		while (true) { //TODO: Update this condition to check if snake is in bounds
+		while (august.isInbounds()) { //TODO: Update this condition to check if snake is in bounds
 			int dir = getKeypress();
 			//Testing only: you will eventually need to do more work here
-			System.out.println("Keypress: " + dir);
+			//System.out.println("Keypress: " + dir);
 			
 			/*
 			 * 1. Pass direction to your snake
@@ -24,6 +34,17 @@ public class Game {
 			 * 3. If the food has been eaten, make a new one
 			 * 4. Update the drawing
 			 */
+			 if (dir != -1) {
+		            august.changeDirection(dir);
+		        }
+			august.move();
+			if(august.eatFood(baba)) {
+			
+				baba=new Food();
+				score ++;
+			}
+			
+			updateDrawing();
 		}
 	}
 	
@@ -45,6 +66,16 @@ public class Game {
 	 * Clears the screen, draws the snake and food, pauses, and shows the content
 	 */
 	private void updateDrawing() {
+		
+		StdDraw.clear();
+		august.draw();
+		baba.draw();
+		
+		StdDraw.setPenColor(Color.BLACK);
+		StdDraw.text(0.9, 0.1, "Score: "+score );
+		StdDraw.pause(50);
+		StdDraw.show();
+		
 		//FIXME
 		
 		/*
